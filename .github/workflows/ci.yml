@@ -85,13 +85,17 @@ jobs:
           conda install -y -c conda-forge suitesparse scikit-umfpack nanoeigenpy
           python -m pip install 'scikit-sparse>=0.5'
           python -m pip install -U pip
-          python -m pip install qdldl pytest
+          python -m pip install qdldl pytest pytest-cov
           python -m pip install -e .[test] || python -m pip install -e .
 
-      - name: Run tests
+      - name: Run tests with coverage
         shell: bash -l {0}
+        # Coverage is measured on every leg, not just one: each installs a
+        # different subset of the optional linear solvers, so a single leg
+        # would report a floor no other leg has to meet. The threshold
+        # lives in pyproject.toml and pytest exits non-zero below it.
         run: |
-          pytest
+          pytest --cov --cov-report=term-missing
 
   build-and-publish:
     if: startsWith(github.ref, 'refs/tags/')

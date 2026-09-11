@@ -6,7 +6,7 @@ The cutie QP solver is a primal-dual interior point method for solving
 convex quadratic programs (QPs), implemented in pure python. It solves the
 primal QP:
 
-```
+```text
     min. (1/2) x.T @ p @ x + c.T @ x
     s.t. a @ x + s = b
          s[:z] == 0
@@ -15,7 +15,7 @@ primal QP:
 
 With dual:
 
-```
+```text
     max. -(1/2) x.T @ p @ x - b.T @ y
     s.t. p @ x + a.T @ y = -c
          y[z:] >= 0
@@ -95,7 +95,7 @@ print(f'{sol.s=}')
 
 You should see output similar to
 
-```
+```text
 | QTQP v0.0.7: m=3, n=2, z=1, nnz(A)=4, nnz(P)=4, linear_solver=ACCELERATE, equilibration=RUIZ
 |------|------------|------------|----------|----------|----------|----------|----------|----------|----------|
 | iter |      pcost |      dcost |     pres |     dres |      gap |   infeas |       mu |  q, p, c |     time |
@@ -123,7 +123,7 @@ import qtqp
 
 This exposes the main solver class `qtqp.QTQP` with constructor:
 
-```python
+```text
 QTQP(
     *,
     a: scipy.sparse.csc_matrix,
@@ -154,7 +154,7 @@ Arguments:
 
 This class has a single API method `solve`:
 
-```python
+```text
 solve(
     *,
     tol_feas: float = 1e-8,
@@ -477,7 +477,7 @@ python -m pip install cupy-cuda12x
 
 Coming soon, in the meantime the closest work is:
 
-```
+```bibtex
 @article{odonoghue:21,
     author       = {Brendan O'Donoghue},
     title        = {Operator Splitting for a Homogeneous Embedding of the Linear Complementarity Problem},
