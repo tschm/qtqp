@@ -569,6 +569,7 @@ class QTQP:
       self._linear_solver.update_init()
 
       def _saddle_solve(rx, ry):
+        """Solves [P, A'; A, -H] @ sol = (rx, ry) on the session's backend."""
         # DirectKktSolver.solve applies [P, A'; A, -H] with the second
         # RHS block negated internally; pass (rx, -ry) so the solved
         # system is [P, A'; A, -H] @ sol = (rx, ry).
@@ -597,6 +598,7 @@ class QTQP:
       )
 
       def _saddle_solve(rx, ry):
+        """Solves [P, A'; A, -H] @ sol = (rx, ry) with a standalone spsolve."""
         return sp.linalg.spsolve(kkt, np.concatenate([rx, ry]))
 
     if p.nnz == 0:
@@ -1968,6 +1970,7 @@ class QTQP:
     return status
 
   def _log_header(self):
+    """Prints the iteration table header when verbose."""
     if self.verbose:
       print(f"{_SEPARA}\n{_HEADER}\n{_SEPARA}")
 
@@ -1979,6 +1982,7 @@ class QTQP:
 
     # Parser for linear solver stats (handles stalled/failed sub-solves)
     def parse_ls(d):
+      """Renders one sub-solve's solve count, or ' *' when it stalled."""
       return " *" if d.get("status") == "stalled" else f"{d.get('solves', 0):2}"
 
     solves = (
@@ -1995,5 +1999,6 @@ class QTQP:
     )
 
   def _log_footer(self, message: str):
+    """Prints the closing rule, the message and the IPM step count when verbose."""
     if self.verbose:
       print(f"{_SEPARA}\n| {message}\n| Completed IPM steps: {self._iterations}")
